@@ -22,24 +22,54 @@ h1 {
     margin: 0;
 }
 
+p {
+    color: #eee;
+}
+
 section {
     background-color: #fff;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     padding: 30px;
     margin-top: 20px;
+    text-align: center;
 }
 
-article {
-    margin-bottom: 30px;
+#file-upload {
+    border: 2px dashed #ccc;
+    padding: 20px;
+    cursor: pointer;
 }
 
-h2 {
+label {
+    display: block;
+}
+
+span {
+    display: block;
+}
+
+.browse-btn {
+    display: inline-block;
+    background-color: #3498db;
+    color: #fff;
+    padding: 8px 16px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+#file-input {
+    display: none;
+}
+
+.file-limit {
+    margin-top: 10px;
+    color: #777;
+}
+
+#results {
+    margin-top: 20px;
+    display: none;
     color: #333;
-}
-
-p {
-    color: #666;
-    line-height: 1.6;
 }
 
 @media screen and (max-width: 768px) {
