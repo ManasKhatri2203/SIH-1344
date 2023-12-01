@@ -3,26 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dermatology AI Diagnostic Tool</title>
+    <title>Automated Diagnosis of Skin Diseases</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
         <div class="container">
-            <h1>Dermatology AI Diagnostic Tool</h1>
+            <h1>Automated Diagnosis of Skin Diseases</h1>
+            <p>Please note that our model achieves a 92% accuracy rate. Consult a qualified doctor for a precise diagnosis.</p>
         </div>
     </header>
 
     <section class="container">
-        <article>
-            <h2>About</h2>
-            <p>The Global Burden of Disease project has revealed that skin diseases are a major health concern worldwide. Our AI-based tool aims to provide a preliminary diagnosis of dermatological conditions, contributing to improved healthcare.</p>
-        </article>
+        <div id="file-upload">
+            <label for="file-input">
+                <span>Drag and drop file here</span>
+                <p>or</p>
+                <span class="browse-btn">Browse</span>
+            </label>
+            <input type="file" id="file-input" accept=".png, .jpg, .jpeg" />
+            <p class="file-limit">Limit 200MB per file • PNG, JPG, JPEG</p>
+        </div>
 
-        <article>
-            <h2>Instructions</h2>
-            <p>Upload an image of the dermatological manifestation for a preliminary diagnosis. Please note that this tool is not a substitute for professional medical advice, and it's essential to consult a qualified healthcare provider for accurate diagnosis and treatment.</p>
-        </article>
+        <!-- Display results here -->
+        <div id="results"></div>
     </section>
+
+    <script src="script.js"></script>
 </body>
 </html>
