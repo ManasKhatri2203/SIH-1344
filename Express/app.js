@@ -7,7 +7,8 @@ const port=80;
 
 // For serving static files
 app.use("/static", express.static('static'));
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true }));
+
 
 //setting template engine as pug
 app.set('view engine', 'pug');
@@ -22,7 +23,7 @@ app.get('/',(req,res)=>{
 })
 
 app.post('/',(req,res)=>{
-       // console.log(req.body);
+       console.log(req.body);
        txt=req.body.txt;
        email=req.body.email;
        pswd=req.body.pswd;
