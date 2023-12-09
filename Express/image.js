@@ -6,7 +6,7 @@ const app = express();
 const port = 80;
 
 // Set up static file serving
-app.use("/static", express.static('static'));
+app.use(express.static(path.join(__dirname, 'static')));
 
 // Use express-fileupload middleware
 app.use(fileUpload());
