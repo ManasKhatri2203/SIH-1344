@@ -6,7 +6,7 @@ const app = express();
 const port = 80;
 
 // Set up static file serving
-app.use(express.static(path.join(__dirname, 'static')));
+app.use("/static", express.static('static'));
 
 // Use express-fileupload middleware
 app.use(fileUpload());
@@ -15,7 +15,7 @@ app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 
 // Define the route for rendering the form
-app.get('/', (req, res) => {
+app.get('/hi', (req, res) => {
     const con = "This is a random text jada na padhe";
     const params = { 'title': 'This is pug, doggie nhi h', "content": con };
     res.status(200).render('image.pug', params);

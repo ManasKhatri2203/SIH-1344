@@ -1,57 +1,113 @@
-const express=require('express');
-const path=require("path");
-const fs=require("fs");
+const express = require("express");
+const path = require("path");
 
-const app=express();
-const port=80;
+const fs = require("fs");
 
-// For serving static files
-app.use("/static", express.static('static'));
-app.use(express.urlencoded({ extended: true }));
+const mongoose=require("mongoose")
 
+// for Mac use ==> npx nodemon app.js
 
-//setting template engine as pug
-app.set('view engine', 'pug');
-app.set('views',path.join(__dirname,'views'));
+  mongoose.connect("mongodb+srv://av:root@sih.370sv4k.mongodb.net/?retryWrites=true&w=majority")  
+  .then(()=>{
+      console.log('congo MongoDB is finally connected ');
+  })
+  .catch((e)=>{
+      console.log('failed ');
+  })
 
-
-app.get('/',(req,res)=>{
-       const con="This is a random text jada na padhe";
-       const params={'title':'This is pug, doggie nhi h',"content" : con};
-       //  res.status(200).render('index.pug',params)
-        res.status(200).render('index.pug')
-})
-
-app.post('/',(req,res)=>{
-       console.log(req.body);
-       txt=req.body.txt;
-       email=req.body.email;
-       pswd=req.body.pswd;
-
-       let opttowrite=`The username is: ${txt} and the email is ${email} and the password of the user is ${pswd}`;
-       fs.writeFileSync('output.txt',opttowrite);
-       const params={'title':'Successfully Signed Up'};
-       res.status(200).render('index.pug',params)
-})
-
-// app.get("/demo", (req,res)=>{
-//        res.status(200).render('demo', { title: 'Hey whats up dude', message: 'Hello there! kem cho maja ma' });
-// })
-
-// app.get("/", (req,res)=>{
-//        res.send("This is homepage of express app");
-// })
+  const parameter=new mongoose.Schema({             
+      Username:{
+          type:String,
+          required:true
+      },
+      email:{
+          type:String,
+          required:true
+      },
+      password:{
+          type:String,
+          required:true
+      }
+  })
 
 
-// app.get("/about", (req,res)=>{
-//       res.send("This is about page");
-// })
+  const authentication=new mongoose.model( 'authentication',parameter)
 
-// app.get("/this", (req,res)=>{
-//     res.status(404).send("This page is not found");
-// })
+  module.exports=authentication 
 
-// for starting server
-app.listen(port, ()=>{
-       console.log(`The application started successfully on port ${port}`);
-})
+
+
+
+const app = express();
+const port = 80;
+
+
+app.use("/static", express.static("static"));
+app.use(express.urlencoded());
+
+
+app.use(express.urlencoded({ extended: false }));
+
+app.set("view engine", "pug");
+app.set("views", path.join(__dirname, "views"));
+
+app.get("/", (req, res) => {
+  const con = "This is a random text jada na padhe";
+  const params = { title: "This is pug, doggie nhi h", content: con };
+ 
+  res.status(200).render("index.pug");
+});
+
+//LOGIN
+
+app.post("/login", async (req, res) => {
+  try {
+    const check = await authentication.findOne({ email: req.body.email });
+
+    if (check && check.password === req.body.pswd) {
+     
+      res.redirect("/success");
+    } else {
+      res.send("incorrect password");   // UPDATE THIS : iski jagah front end me message aana chahie incorrect pass ka
+    }
+  } catch (e) {
+    res.send("wrong details");
+  }
+});
+
+
+//SIGNUP
+
+app.post("/signup", async (req, res) => {
+  const data = {
+    Username: req.body.txt,
+    email: req.body.email,
+    password: req.body.pswd,
+  };
+
+  try {
+    const checking = await authentication.findOne({ email: req.body.email });
+
+    if (checking ) {
+      res.send("user details already exist");   
+    } // UPDATE THIS : iski jagah front end me message aana chahie
+    else {
+      await authentication.insertMany([data]);
+      
+      res.redirect("/");
+    }
+  } catch {
+    res.send("wrong inputs");    
+  }
+});
+
+// forgot password ya update ka bhi option hona chahie na???
+app.get("/success", (req, res) => {
+  res.status(200).render("image.pug");
+});
+
+
+
+app.listen(port, () => {
+  console.log(`The application started successfully on port ${port}`);
+});
